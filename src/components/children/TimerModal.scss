@@ -1,0 +1,65 @@
+@use "../../styles/mixins" as *;
+
+.timer-component {
+
+    .timer-item {
+    height: 80%;
+    width: 90%;
+
+    .timer-title {
+      font-size: 3rem;
+    }
+
+    .timer-info {
+      font-size: 1.5rem;
+    }
+
+    .timer-wraper {
+      min-width: 300px;
+      overflow: hidden;
+      background: rgba(106, 67, 215, 0.2);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(8.2px);
+        -webkit-backdrop-filter: blur(8.2px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        text-align: center;
+
+        @include mobile {
+          min-width: 270px;
+        }
+
+      .timer {
+        padding: 10px;
+        font-weight: bold;
+        display: inline-flex;
+        gap: 6px;
+        font-size: 5rem;
+        text-shadow: 2px 2px 5px #000;
+        letter-spacing: 8;
+
+        .minutes {
+          animation: pulse 2s infinite;;
+        }
+
+       .seconds {
+            &.running {
+              animation: bounce 1s infinite;
+            }
+            
+          }
+        
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+@keyframes bounce {
+  0% { transform: translateY(100%); }
+  50%{ transform: translateY(0);}
+  100% { transform: translateY(-100%); }
+}

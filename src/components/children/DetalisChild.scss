@@ -1,0 +1,17 @@
+@use "../../styles/mixins" as *;
+
+.detals-child-component{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+  
+
+    .detals-child-back-btn{
+        align-self: flex-end;
+    }
+
+
+}

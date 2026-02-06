@@ -1,0 +1,55 @@
+@use "../../styles/mixins" as *;
+
+.table-container {
+    width: 100%;
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        // min-width: 800px;
+
+        thead {
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            color: white;
+
+            th {
+                padding: 18px 5px;
+                text-align: center;
+                font-weight: 600;
+                font-size: 1rem;
+
+                @include mobile {
+                    padding: 12px 5px;
+                    font-size: 0.8rem;
+                }
+            }
+        }
+
+        tbody {
+
+            tr {
+                border-bottom: 1px solid #f1f5f9;
+                transition: background-color 0.2s;
+
+
+                &:hover {
+                    background-color: #f9fafb;
+                }
+
+                td {
+                    padding: 16px 5px;
+                    vertical-align: middle;
+                    text-align: center;
+
+                    &.not-long-enough {
+                        background: #ff4d4da1;
+                    }
+
+                    @include mobile {
+                        padding: 10px 5px;
+                        font-size: 0.8rem;
+                    }
+                }
+            }
+        }
+    }
+}

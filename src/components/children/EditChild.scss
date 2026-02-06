@@ -1,0 +1,25 @@
+@use "../../styles/mixins" as *;
+
+.edit-child-component{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+
+    .edit-child-back-btn{
+        align-self: flex-end;
+    }
+
+    .edit-child-input{
+
+        @include mobile{
+            font-size: 1.3rem;
+        }
+    }
+
+   .edit-child-del-btn{
+       background: #ff4d4d;
+   }
+}

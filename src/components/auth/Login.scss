@@ -1,0 +1,54 @@
+@use "../../styles/mixins" as *;
+
+.login-component {
+    min-height: 80vh;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+    .app-info-component {
+        max-width: 800px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(8.2px);
+        -webkit-backdrop-filter: blur(8.2px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        text-align: center;
+
+        @include mobile {
+            width: 90%;
+        }
+
+        .app-info{
+            padding: 30px;
+            line-height: 1.5;
+            font-size: 1.4rem;
+            color: #6a43d7;
+            text-shadow: 2px 2px 5px #fff;
+
+            @include mobile{
+                font-size: 1rem;
+            }
+        }
+    }
+
+
+    .login-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background-size: contain;
+        background-position: center;
+        background-repeat: repeat;
+        pointer-events: none; // nie blokuje klików
+    }
+
+    .login-btn {
+
+        font-size: 1.5rem;
+        padding: 25px;
+    }
+}
