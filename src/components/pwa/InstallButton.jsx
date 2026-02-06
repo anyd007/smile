@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./InstallButton.scss"
 
 function InstallButton() {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -37,7 +38,7 @@ function InstallButton() {
   if (!isInstallable) return null;
 
   return (
-    <button onClick={handleInstall}>
+    <button className="install-btn" onClick={handleInstall}>
       📲 Zainstaluj aplikację
     </button>
   );
