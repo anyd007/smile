@@ -68,7 +68,7 @@ const TimerModal = ({ onClose, onFinish }) => {
           </button>
           <button
             className="close-btn"
-            onClick={() => (setIsRunning(false), onClose())}
+            onClick={() => {setIsRunning(false); onClose()}}
           >
             Zamknij
           </button>

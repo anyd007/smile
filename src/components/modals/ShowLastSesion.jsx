@@ -1,5 +1,5 @@
 import "./ShowLastSesion.scss";
-import PriceImg from "../../assets/images/price-img.png"
+// import PriceImg from "../../assets/images/price-img.png"
 
 const ShowLastSesion = ({ onClose, lastSession }) => {
   console.log("Ostatnia sesja:", lastSession);
