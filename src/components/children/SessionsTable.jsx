@@ -1,9 +1,11 @@
 import "./SessionsTable.scss";
 import Loading from "../loading/Loading";
-function SessionsTable({ sessions, bestTime }) {
+function SessionsTable({ sessions, lastSession }) {
 
-// const bestTime = Math.max(...sessions.map(s => s.duration));
-    console.log(bestTime)
+const bestTime = Math.max(...sessions.map(s => s.duration));
+    if(lastSession){
+      console.log(lastSession)
+    }
   if (!sessions.length) {
     return <p>Brak zapisanych sesji</p>;
   }
@@ -39,6 +41,7 @@ function SessionsTable({ sessions, bestTime }) {
               </td>
               <td className={s.duration < 120 ? "not-long-enough" : ""}>{formatTime(s.duration)}</td>
               <td>{ s.duration === bestTime ? "⏱️" : ""}</td>
+              {/* {lastSession && <td>{lastSession.isRecord ? "⏱️" : ""}</td>} */}
               <td>{s.success ? "🏆" : ""}</td>
             </tr>
           ))}

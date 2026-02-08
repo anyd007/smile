@@ -114,7 +114,7 @@ const DetalisChild = ({ detalsChild, onClose, onEdit }) => {
         />
       )}
       <Suspense fallback={<Loading />}>
-        <SessionsTable sessions={sessions} bestTime={bestTime} />
+        <SessionsTable sessions={sessions} lastSession={lastSession} />
       </Suspense>
     </div>
   );
