@@ -21,7 +21,7 @@ const DetalisChild = ({ detalsChild, onClose, onEdit }) => {
   const [isTimerOpen, setIsTimerOpen] = useState(false);
   const [lastSession, setLastSession] = useState(null);
   const [sessions, setSessions] = useState([]);
-  const [bestTime, setBestTime] = useState(null);
+  // const [bestTime, setBestTime] = useState(null);
   const [openLastTimeModal, setOpenLastTimeModal] = useState(false);
 
   const { user } = useContext(AuthContext);
@@ -33,9 +33,9 @@ const DetalisChild = ({ detalsChild, onClose, onEdit }) => {
 
     const isRecord = timeInSeconds > previousBest;
 
-    if (isRecord) {
-      setBestTime(timeInSeconds);
-    }
+    // if (isRecord) {
+    //   setBestTime(timeInSeconds);
+    // }
 
     const sessionData = {
       duration: timeInSeconds,
