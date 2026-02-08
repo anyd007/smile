@@ -17,7 +17,7 @@ const ShowLastSesion = ({ onClose, lastSession }) => {
           <img
             className="price-img"
             src={PriceImg}
-            alt="price image"
+            alt="price"
             onClick={() => setGetPrice(false)}
           />
         )}
