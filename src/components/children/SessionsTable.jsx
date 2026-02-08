@@ -7,7 +7,7 @@ const bestTime = Math.max(...sessions.map(s => s.duration));
       console.log(lastSession)
     }
   if (!sessions.length) {
-    return <p>Brak zapisanych sesji</p>;
+    return <p>Brak zapisanych sesji mycia zębów...</p>;
   }
 
    const formatTime = (seconds) => {
