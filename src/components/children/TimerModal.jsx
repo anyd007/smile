@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./TimerModal.scss";
+import LogoWithText from "../../assets/images/logo-with-text.png"
 
 const TimerModal = ({ onClose, onFinish }) => {
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -35,6 +36,7 @@ const TimerModal = ({ onClose, onFinish }) => {
   return (
     <div className="modal-backdrop timer-component">
       <div className="modal timer-item">
+        <img className="timer-logo" src={LogoWithText} alt="logo with text" />
         <h3 className="timer-title">Mycie zębów</h3>
         <p className="timer-info">
           żeby otrzymać puchar myjemy zęby minimum dwie minuty
