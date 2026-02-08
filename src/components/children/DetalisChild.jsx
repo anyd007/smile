@@ -2,7 +2,14 @@ import { useState, useContext, useEffect, lazy, Suspense } from "react";
 import TimerModal from "./TimerModal";
 
 import ShowLastSesion from "../modals/ShowLastSesion";
-import { collection, addDoc, serverTimestamp, onSnapshot, query,  orderBy } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  onSnapshot,
+  query,
+  orderBy,
+} from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { AuthContext } from "../auth/AuthProvider";
 import Loading from "../loading/Loading";
@@ -20,10 +27,12 @@ const DetalisChild = ({ detalsChild, onClose, onEdit }) => {
   const { user } = useContext(AuthContext);
 
   const handleFinishTimer = async (timeInSeconds) => {
-    
     const isSussecs = timeInSeconds >= 120;
 
-    const isRecord = bestTime === null || timeInSeconds > bestTime;
+    const previousBest = sessions.length > 0 ? Math.max(...sessions.map((s) => s.duration)) : 0;
+
+    const isRecord = timeInSeconds > previousBest;
+
     if (isRecord) {
       setBestTime(timeInSeconds);
     }
@@ -31,10 +40,7 @@ const DetalisChild = ({ detalsChild, onClose, onEdit }) => {
     const sessionData = {
       duration: timeInSeconds,
       success: isSussecs,
-      isRecord: isRecord,
       createdAt: serverTimestamp(),
-      _localCreatedAt: new Date(),
-
     };
 
     // Zapis do Firestore
@@ -48,52 +54,53 @@ const DetalisChild = ({ detalsChild, onClose, onEdit }) => {
         "sessions",
       );
       await addDoc(sessionsRef, sessionData);
-      
-      setLastSession(sessionData);
+
+      setLastSession({...sessionData, isRecord});
 
       setIsTimerOpen(false);
       setOpenLastTimeModal(true);
-      
     } catch (error) {
       console.error("Błąd zapisywania sesji:", error);
     }
   };
-  
+
   //pobranie z firebase sesji dziecka
   useEffect(() => {
-  if (!user || !detalsChild?.id) return;
+    if (!user || !detalsChild?.id) return;
 
-  const sessionsRef = collection(
-    db,
-    "parents",
-    user.uid,
-    "children",
-    detalsChild.id,
-    "sessions"
-  );
+    const sessionsRef = collection(
+      db,
+      "parents",
+      user.uid,
+      "children",
+      detalsChild.id,
+      "sessions",
+    );
 
-  const q = query(sessionsRef, orderBy("createdAt", "desc"));
+    const q = query(sessionsRef, orderBy("createdAt", "desc"));
 
-  const unsubscribe = onSnapshot(q, (snapshot) => {
-    const data = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setSessions(data);
-  });
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setSessions(data);
+    });
 
-  return () => unsubscribe(); // cleanup
-}, [user, detalsChild]);
-  console.log(sessions)
+    return () => unsubscribe(); // cleanup
+  }, [user, detalsChild]);
+
   return (
     <div className="detals-child-component">
-      <button className="detals-child-back-btn" onClick={onClose}>← Wróć</button>
+      <button className="detals-child-back-btn" onClick={onClose}>
+        ← Wróć
+      </button>
       <button onClick={onEdit}>✏️ Edytuj dane</button>
 
       <h2>Cześć {detalsChild.name}!</h2>
 
       <button onClick={() => setIsTimerOpen(true)}>Zaczynamy mycie 🪥</button>
-    
+
       {isTimerOpen && (
         <TimerModal
           onClose={() => setIsTimerOpen(false)}
@@ -101,12 +108,15 @@ const DetalisChild = ({ detalsChild, onClose, onEdit }) => {
         />
       )}
       {openLastTimeModal && (
-        <ShowLastSesion onClose={() => setOpenLastTimeModal(false)} lastSession={lastSession} />
+        <ShowLastSesion
+          onClose={() => setOpenLastTimeModal(false)}
+          lastSession={lastSession}
+        />
       )}
       <Suspense fallback={<Loading />}>
-      <SessionsTable sessions={sessions} />
+        <SessionsTable sessions={sessions} bestTime={bestTime} />
       </Suspense>
-    </div>  
+    </div>
   );
 };
 

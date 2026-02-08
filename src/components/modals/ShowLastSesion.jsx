@@ -2,7 +2,7 @@ import "./ShowLastSesion.scss";
 // import PriceImg from "../../assets/images/price-img.png"
 
 const ShowLastSesion = ({ onClose, lastSession }) => {
-  console.log("Ostatnia sesja:", lastSession);
+  
   return (
     <div className="show-last-sesion-component modal-backdrop">
       <div className="show-last-sesion-item modal">
