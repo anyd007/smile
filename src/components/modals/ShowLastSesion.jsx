@@ -1,11 +1,26 @@
 import "./ShowLastSesion.scss";
-// import PriceImg from "../../assets/images/price-img.png"
+import PriceImg from "../../assets/images/price-img.png";
+import { useEffect, useState } from "react";
 
 const ShowLastSesion = ({ onClose, lastSession }) => {
+  const [getPrice, setGetPrice] = useState(false);
+
+  useEffect(() => {
+    if (!lastSession) return;
+    setGetPrice(lastSession.duration >= 120);
+  }, [lastSession]);
   
   return (
     <div className="show-last-sesion-component modal-backdrop">
       <div className="show-last-sesion-item modal">
+        {getPrice && (
+          <img
+            className="price-img"
+            src={PriceImg}
+            alt="price image"
+            onClick={() => setGetPrice(false)}
+          />
+        )}
         <h3>Czas Twojego mycia zębów to: {lastSession?.duration} s</h3>
         {lastSession && (
           <div style={{ marginTop: "16px" }}>
@@ -21,7 +36,8 @@ const ShowLastSesion = ({ onClose, lastSession }) => {
               </>
             ) : (
               <p style={{ color: "red" }}>
-                ❌ Za krótko ({lastSession.duration}s). Następnym razem postaraj się bardziej!
+                ❌ Za krótko ({lastSession.duration}s). Następnym razem postaraj
+                się bardziej!
               </p>
             )}
           </div>

@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { doc, updateDoc, deleteDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { AuthContext } from "../auth/AuthProvider";
 import "./EditChild.scss";
@@ -22,6 +22,7 @@ const EditChild = ({ child, onClose }) => {
       });
 
       onClose();
+      
     } catch (error) {
       console.error("Błąd zapisu:", error);
     } finally {
@@ -38,7 +39,24 @@ const EditChild = ({ child, onClose }) => {
     try {
       const childRef = doc(db, "parents", user.uid, "children", child.id);
 
-      await deleteDoc(childRef);
+      const sessionsRef = collection(
+      db,
+      "parents",
+      user.uid,
+      "children",
+      child.id,
+      "sessions"
+    );
+
+       const sessionsSnapshot = await getDocs(sessionsRef);
+
+    for (const sessionDoc of sessionsSnapshot.docs) {
+      await deleteDoc(sessionDoc.ref);
+    }
+
+    // 2️⃣ usuń dziecko
+    await deleteDoc(childRef);
+
       onClose();
     } catch (error) {
       console.error("Błąd usuwania dziecka:", error);

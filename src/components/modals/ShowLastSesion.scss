@@ -1,0 +1,37 @@
+@use "../../styles/mixins" as *;
+
+.show-last-sesion-component{
+
+    .show-last-sesion-item{
+        position: relative;
+
+        .price-img{
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+            animation: zoom 2.5s ease forwards;
+        }
+
+    }
+}
+
+@keyframes zoom {
+        0%{
+            scale: 0;
+        }
+        25%{
+            scale: 1.5;
+        }
+        50%{
+            scale: 1;
+        }
+        75%{
+            scale: 0.5;
+        }
+        100%{
+            scale: 1;
+        }
+}

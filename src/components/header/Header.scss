@@ -1,6 +1,6 @@
 @use "../../styles/mixins" as *;
 
-.header-component{
+.header-component {
     position: relative;
     display: flex;
     justify-content: center;
@@ -11,39 +11,77 @@
     background: #fff;
     overflow: hidden;
 
-    .img-logo{
+    .header-title {
+        z-index: 1;
+
+        @include mobile {
+            font-size: 2rem;
+        }
+    }
+
+    .img-logo {
         position: absolute;
         max-width: 100px;
         max-height: 100px;
-        bottom: -100%;
+        bottom: -120%;
         right: 5%;
         transition: all 0.3s;
-        animation: show 0.5s forwards ease-in-out;
-        animation-delay: 4s;
+        animation:
+            show 0.5s ease-in-out 2s forwards,
+            slide 1.5s ease 5s forwards;
+            z-index: 1;
+
 
         @include mobile {
             right: 0;
-            animation: show-mobile 0.5s forwards ease-in-out;
-            animation-delay: 3s;
+            animation: show-mobile 0.5s forwards 2s ease-in-out,
+            slide-mobile 1.5s ease 5s forwards;
+          
         }
     }
 }
 
 @keyframes show {
-    0%{ 
+    0% {
         bottom: -100%;
+
     }
-   
-    100%{
+
+    100% {
         bottom: -10%;
+
     }
 }
+
 @keyframes show-mobile {
-          0%{ 
+    0% {
         bottom: -100%;
     }
-   
-    100%{
-        bottom: 40%;
+
+    100% {
+        bottom: -20%;
+    }
+}
+
+@keyframes slide {
+    0% {
+        right: 5%;
+        z-index: 1;
+    }
+
+    100% {
+        right: 90%;
+        z-index: 0;
+    }
+}
+@keyframes slide-mobile {
+      0% {
+        right: 5%;
+        z-index: 1;
+    }
+
+    100% {
+        right: 70%;
+        z-index: 0;
     }
 }
