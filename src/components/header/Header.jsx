@@ -1,5 +1,6 @@
 import "./Header.scss";
 import Logo from "../../assets/images/logo.png"
+// import HeaderBg from "../../assets/images/header-bg.png"
 
 const Header = () => {
     return ( 

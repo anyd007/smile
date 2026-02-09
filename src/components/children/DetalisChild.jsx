@@ -34,7 +34,7 @@ const DetalisChild = ({ detalsChild, onClose, onEdit }) => {
     const isRecord = timeInSeconds > previousBest;
 
     // if (isRecord) {
-    //   setBestTime(timeInSeconds);
+    //   setBestTime(isRecord);
     // }
 
     const sessionData = {
@@ -89,7 +89,7 @@ const DetalisChild = ({ detalsChild, onClose, onEdit }) => {
 
     return () => unsubscribe(); // cleanup
   }, [user, detalsChild]);
-
+  console.log(sessions)
   return (
     <div className="detals-child-component">
       <button className="detals-child-back-btn" onClick={onClose}>

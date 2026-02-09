@@ -1,7 +1,7 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import "./Login.scss";
-import BgImage from "../../assets/images/dentist_wp.jpeg";
+
 
 
 const Login = () => {
@@ -16,10 +16,10 @@ const Login = () => {
   };
   return (
     <div className="login-component">
-      <div
+      {/* <div
         className="login-bg"
         style={{ backgroundImage: `url(${BgImage})` }}
-      ></div>
+      ></div> */}
       <div className="app-info-component">
         <p className="app-info">
           Ta strona pomaga zamienić codzienne mycie zębów w małe wyzwanie 🎯

@@ -6,6 +6,7 @@ import Loading from "./components/loading/Loading";
 import Header from './components/header/Header';
 import EditChild from './components/children/EditChild';
 import InstallButton from './components/pwa/InstallButton';
+import Bg from "./assets/images/bg.png"
 import './styles/main.scss';
 
 
@@ -26,6 +27,8 @@ function App() {
 
   return (
     <div className="App">
+      <div className="bg"
+      style={{ backgroundImage: `url(${Bg})` }}></div>
       <Header />
       <InstallButton/>
       <Suspense fallback={<Loading />}>
