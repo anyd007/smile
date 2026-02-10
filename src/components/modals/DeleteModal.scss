@@ -1,0 +1,33 @@
+@use "../../styles/mixins" as *;
+
+.delete-modal-container{
+
+    .delete-modal{
+        width: 50%;
+        height: 50%;
+        background: #ff4d4d !important;
+
+        @include mobile{
+            width: 90%;
+            height: 70%;
+        }
+
+        .delete-modal-title{
+            color: #000;
+            font-size: 2.5rem !important;
+        }
+
+        .delete-modal-info{
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .delete-modal-btns{
+
+            .delete-modal-confirm{
+                background: black;
+                text-transform: uppercase;
+            }
+        }
+    }
+}

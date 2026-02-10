@@ -1,12 +1,15 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { doc, updateDoc, deleteDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { AuthContext } from "../auth/AuthProvider";
+import DeleteModal from "../modals/DeleteModal";
 import "./EditChild.scss";
 
 const EditChild = ({ child, onClose }) => {
   const [name, setName] = useState(child.name);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false)
+  const [deletingInfo, setDeletingInfo] = useState("")
   const { user } = useContext(AuthContext);
 
   const handleSave = async () => {
@@ -30,11 +33,13 @@ const EditChild = ({ child, onClose }) => {
     }
   };
 
+  useEffect(() =>{
+    setDeletingInfo(`Czy napewno chcesz usunąć ${child.name}?`)
+  }, [deleting, child])
+
   const handleDelete = async () => {
-    const confirmDelete = window.confirm(
-      `Czy napewno chcesz usunąć ${child.name}?`,
-    );
-    if (!confirmDelete) return;
+    
+    if (!deleting) return;
 
     try {
       const childRef = doc(db, "parents", user.uid, "children", child.id);
@@ -84,9 +89,10 @@ const EditChild = ({ child, onClose }) => {
       </button>
       </div>
       
-      <button className="edit-child-del-btn" onClick={handleDelete} disabled={saving}>
+      <button className="edit-child-del-btn" onClick={() => setDeleting(true)} disabled={saving}>
         {saving ? "Usówanie..." : "usuń bohatera z listy"}
       </button>
+      {deleting && <DeleteModal setDeleting={setDeleting} deletingInfo={deletingInfo} handleDelete={handleDelete}/>}
     </div>
   );
 };

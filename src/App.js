@@ -16,6 +16,7 @@ function App() {
   const DetalisChild = lazy(() => import("./components/children/DetalisChild"));
   const Login = lazy(() => import("./components/auth/Login"));
 
+
   const { user, loading } = useContext(AuthContext);
 
   const [selectedChild, setSelectedChild] = useState(null);
@@ -59,6 +60,7 @@ function App() {
                   onSelectedChild={setSelectedChild}
                   onEditChild={setChildToEdit}
                 />
+               
               </>
             )}
           </>

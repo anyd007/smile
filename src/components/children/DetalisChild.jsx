@@ -85,11 +85,16 @@ const DetalisChild = ({ detalsChild, onClose, onEdit }) => {
         ...doc.data(),
       }));
       setSessions(data);
+
     });
 
     return () => unsubscribe(); // cleanup
   }, [user, detalsChild]);
-  console.log(sessions)
+
+  // const successCount = sessions.filter(s => s.success).length;
+  // console.log(successCount)
+
+  
   return (
     <div className="detals-child-component">
       <button className="detals-child-back-btn" onClick={onClose}>

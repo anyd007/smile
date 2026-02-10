@@ -42,7 +42,7 @@ const ChildrenList = ({ onSelectedChild, selectedChild }) => {
     return () => unsubscribe();
   }, [user]);
 
-
+  
   return (
     <div className="child-list-component">
       {!loading && children.length > 0 && <h2>wybierz bohatera:</h2>}
