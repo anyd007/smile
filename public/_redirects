@@ -1,6 +1,8 @@
 //plik usówający błąd odświeżania strony na netlify
 
+  [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
 

@@ -1,25 +1,24 @@
 import "./SessionsTable.scss";
 import Loading from "../loading/Loading";
 function SessionsTable({ sessions, lastSession }) {
-
-const bestTime = Math.max(...sessions.map(s => s.duration));
-    if(lastSession){
-     
-    }
+  const bestTime = Math.max(...sessions.map((s) => s.duration));
+  if (lastSession) {
+  }
   if (!sessions.length) {
     return <p>Brak zapisanych sesji mycia zębów...</p>;
   }
 
-   const formatTime = (seconds) => {
+  const formatTime = (seconds) => {
     const min = Math.floor(seconds / 60);
     const sec = seconds % 60;
 
     return `${min}:${sec.toString().padStart(2, "0")}`;
   };
 
+  
   return (
     <div className="table-container">
-      {!sessions && <Loading/>}
+      {!sessions && <Loading />}
       <table className="table-item">
         <thead className="table-head">
           <tr>
@@ -30,17 +29,20 @@ const bestTime = Math.max(...sessions.map(s => s.duration));
           </tr>
         </thead>
         <tbody>
-          {sessions.map((s) => (
+          {sessions.map((s, i, arr) => (
             <tr
               key={s.id}
+              className={ i > 0 && s.createdAt?.toDate()?.toDateString() !== arr[i-1]?.createdAt.toDate().toDateString() ? "diffrent-day" : "" }
             >
               <td>
                 {(
                   s.createdAt?.toDate?.() ?? s._localCreatedAt
                 )?.toLocaleString()}
               </td>
-              <td className={s.duration < 120 ? "not-long-enough" : ""}>{formatTime(s.duration)}</td>
-              <td>{ s.duration === bestTime ? "⏱️" : ""}</td>
+              <td className={s.duration < 120 ? "not-long-enough" : ""}>
+                {formatTime(s.duration)}
+              </td>
+              <td>{s.duration === bestTime ? "⏱️" : ""}</td>
               {/* {lastSession && <td>{lastSession.isRecord ? "⏱️" : ""}</td>} */}
               <td>{s.success ? "🏆" : ""}</td>
             </tr>
