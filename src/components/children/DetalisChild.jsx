@@ -1,7 +1,5 @@
 import { useState, useContext, useEffect, lazy, Suspense } from "react";
-import TimerModal from "./TimerModal";
-
-import ShowLastSesion from "../modals/ShowLastSesion";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   collection,
   addDoc,
@@ -9,72 +7,70 @@ import {
   onSnapshot,
   query,
   orderBy,
+  doc,
 } from "firebase/firestore";
+
+import TimerModal from "./TimerModal";
+import ShowLastSesion from "../modals/ShowLastSesion";
 import { db } from "../firebase/firebase";
 import { AuthContext } from "../auth/AuthProvider";
 import Loading from "../loading/Loading";
 import "./DetalisChild.scss";
 
-const DetalisChild = ({ detalsChild, onClose, onEdit }) => {
-  const SessionsTable = lazy(() => import("./SessionsTable"));
+const SessionsTable = lazy(() => import("./SessionsTable"));
+
+const DetalisChild = () => {
+  const { id } = useParams(); // ID dziecka z URL
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+
+  const [child, setChild] = useState(null);
+  const [loadingChild, setLoadingChild] = useState(true);
 
   const [isTimerOpen, setIsTimerOpen] = useState(false);
   const [lastSession, setLastSession] = useState(null);
   const [sessions, setSessions] = useState([]);
-  // const [bestTime, setBestTime] = useState(null);
   const [openLastTimeModal, setOpenLastTimeModal] = useState(false);
 
-  const { user } = useContext(AuthContext);
-
-  const handleFinishTimer = async (timeInSeconds) => {
-    const isSussecs = timeInSeconds >= 120;
-
-    const previousBest = sessions.length > 0 ? Math.max(...sessions.map((s) => s.duration)) : 0;
-
-    const isRecord = timeInSeconds > previousBest;
-
-    // if (isRecord) {
-    //   setBestTime(isRecord);
-    // }
-
-    const sessionData = {
-      duration: timeInSeconds,
-      success: isSussecs,
-      createdAt: serverTimestamp(),
-    };
-
-    // Zapis do Firestore
-    try {
-      const sessionsRef = collection(
-        db,
-        "parents",
-        user.uid,
-        "children",
-        detalsChild.id,
-        "sessions",
-      );
-      await addDoc(sessionsRef, sessionData);
-
-      setLastSession({...sessionData, isRecord});
-
-      setIsTimerOpen(false);
-      setOpenLastTimeModal(true);
-    } catch (error) {
-      console.error("Błąd zapisywania sesji:", error);
-    }
-  };
-
-  //pobranie z firebase sesji dziecka
+  // ===============================
+  // 🔹 POBRANIE DZIECKA
+  // ===============================
   useEffect(() => {
-    if (!user || !detalsChild?.id) return;
+    if (!user || !id) return;
+
+    const childRef = doc(
+      db,
+      "parents",
+      user.uid,
+      "children",
+      id
+    );
+
+    const unsubscribe = onSnapshot(childRef, (snap) => {
+      if (snap.exists()) {
+        setChild({ id: snap.id, ...snap.data() });
+      } else {
+        setChild(null);
+      }
+      setLoadingChild(false);
+    });
+
+    return () => unsubscribe();
+  }, [user, id]);
+
+  // ===============================
+  // 🔹 POBRANIE SESJI
+  // ===============================
+  useEffect(() => {
+    if (!user || !child?.id) return;
 
     const sessionsRef = collection(
       db,
       "parents",
       user.uid,
       "children",
-      detalsChild.id,
-      "sessions",
+      child.id,
+      "sessions"
     );
 
     const q = query(sessionsRef, orderBy("createdAt", "desc"));
@@ -85,26 +81,78 @@ const DetalisChild = ({ detalsChild, onClose, onEdit }) => {
         ...doc.data(),
       }));
       setSessions(data);
-
     });
 
-    return () => unsubscribe(); // cleanup
-  }, [user, detalsChild]);
+    return () => unsubscribe();
+  }, [user, child]);
+ 
+  // ===============================
+  // 🔹 ZAKOŃCZENIE TIMERA
+  // ===============================
+  const handleFinishTimer = async (timeInSeconds) => {
+    if (!user || !child) return;
 
-  // const successCount = sessions.filter(s => s.success).length;
-  // console.log(successCount)
+    const isSuccess = timeInSeconds >= 120;
+    const previousBest =
+      sessions.length > 0
+        ? Math.max(...sessions.map((s) => s.duration))
+        : 0;
 
-  
+    const isRecord = timeInSeconds > previousBest;
+
+    const sessionData = {
+      duration: timeInSeconds,
+      success: isSuccess,
+      createdAt: serverTimestamp(),
+    };
+
+    try {
+      const sessionsRef = collection(
+        db,
+        "parents",
+        user.uid,
+        "children",
+        child.id,
+        "sessions"
+      );
+
+      await addDoc(sessionsRef, sessionData);
+
+      setLastSession({ ...sessionData, isRecord });
+      setIsTimerOpen(false);
+      setOpenLastTimeModal(true);
+    } catch (error) {
+      console.error("Błąd zapisu sesji:", error);
+    }
+  };
+
+  // ===============================
+  // 🔹 GUARDY
+  // ===============================
+  if (loadingChild) return <Loading />;
+  if (!child) return <p>Nie znaleziono dziecka</p>;
+
+  // ===============================
+  // 🔹 RENDER
+  // ===============================
   return (
     <div className="detals-child-component">
-      <button className="detals-child-back-btn" onClick={onClose}>
+      <button
+        className="detals-child-back-btn"
+        onClick={() => navigate(-1)}
+      >
         ← Wróć
       </button>
-      <button onClick={onEdit}>✏️ Edytuj dane</button>
 
-      <h2>Cześć {detalsChild.name}!</h2>
+      <button onClick={() => navigate(`/children/${id}/edit`)}>
+        ✏️ Edytuj dane
+      </button>
 
-      <button onClick={() => setIsTimerOpen(true)}>Zaczynamy mycie 🪥</button>
+      <h2>Cześć {child.name}!</h2>
+
+      <button onClick={() => setIsTimerOpen(true)}>
+        Zaczynamy mycie 🪥
+      </button>
 
       {isTimerOpen && (
         <TimerModal
@@ -112,14 +160,20 @@ const DetalisChild = ({ detalsChild, onClose, onEdit }) => {
           onFinish={handleFinishTimer}
         />
       )}
-      {openLastTimeModal && (
+
+      {openLastTimeModal && lastSession && (
         <ShowLastSesion
           onClose={() => setOpenLastTimeModal(false)}
           lastSession={lastSession}
         />
       )}
+
       <Suspense fallback={<Loading />}>
-        <SessionsTable sessions={sessions} lastSession={lastSession} />
+        <SessionsTable
+          sessions={sessions}
+          lastSession={lastSession}
+        />
+        {sessions.length !== 0 && <button onClick={() => navigate(`/children/${id}/stats`)}>pokaż moje statystyki...</button>}
       </Suspense>
     </div>
   );

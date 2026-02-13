@@ -1,5 +1,6 @@
 import React from 'react';
-import { useContext, useState, lazy, Suspense } from 'react';
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useContext, lazy, Suspense } from 'react';
 import { AuthContext } from './components/auth/AuthProvider';
 import Logout from './components/auth/Logout';
 import Loading from "./components/loading/Loading";
@@ -15,12 +16,10 @@ function App() {
   const ChildrenList = lazy(() => import("./components/children/ChildrenList"));
   const DetalisChild = lazy(() => import("./components/children/DetalisChild"));
   const Login = lazy(() => import("./components/auth/Login"));
+  const Statistics = lazy(() => import("./components/children/Statistics"))
 
 
   const { user, loading } = useContext(AuthContext);
-
-  const [selectedChild, setSelectedChild] = useState(null);
-  const [childToEdit, setChildToEdit] = useState(null);
 
   if (loading) {
     return <Loading />;
@@ -29,42 +28,31 @@ function App() {
   return (
     <div className="App">
       <div className="bg"
-      style={{ backgroundImage: `url(${Bg})` }}></div>
-      <Header />
-      <InstallButton/>
+        style={{ backgroundImage: `url(${Bg})` }}></div>
+      {user && <Header />}
+      {user && <InstallButton />}
+      {user && <Logout userData={user}/>}
       <Suspense fallback={<Loading />}>
-        {!user ? (
-          <Login />
-        ) : (
-          <>
-            <Logout userData={user} />
+        <Routes>
+          {!user && <Route path='*' element={<Login />} />}
 
-            {childToEdit ? (
-              <EditChild
-                child={childToEdit}
-                onClose={() => {
-                  setChildToEdit(null);
-                  setSelectedChild(null);
-                }}
-              />
-            ) : selectedChild ? (
-              <DetalisChild
-                detalsChild={selectedChild}
-                onClose={() => setSelectedChild(null)}
-                onEdit={() => setChildToEdit(selectedChild)}
-              />
-            ) : (
-              <>
-                <AddChild />
-                <ChildrenList
-                  onSelectedChild={setSelectedChild}
-                  onEditChild={setChildToEdit}
-                />
-               
-              </>
-            )}
-          </>
-        )}
+          {user && (
+            <>
+              <Route path='/' element={
+                <>
+                  <AddChild />
+                  <ChildrenList />
+                </>
+              } />
+
+              <Route path="/children/:id" element={<DetalisChild />} />
+              <Route path="/children/:id/edit" element={<EditChild />} />
+              <Route path="/children/:id/stats" element={<Statistics />} />
+
+              <Route path="*" element={<Navigate to="/" />} />
+            </>
+          )}
+        </Routes>
       </Suspense>
     </div>
   );

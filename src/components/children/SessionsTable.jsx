@@ -4,7 +4,7 @@ function SessionsTable({ sessions, lastSession }) {
 
 const bestTime = Math.max(...sessions.map(s => s.duration));
     if(lastSession){
-      console.log(lastSession)
+     
     }
   if (!sessions.length) {
     return <p>Brak zapisanych sesji mycia zębów...</p>;

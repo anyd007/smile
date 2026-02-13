@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import { useEffect, useState, useContext } from "react";
 import { db } from "../firebase/firebase";
 import { AuthContext } from "../auth/AuthProvider";
@@ -12,7 +14,8 @@ import Drow from "../Draw";
 import BackgroundBlobs from "../backgrounds/BackgroundBlobs";
 import "./ChildrenList.scss";
 
-const ChildrenList = ({ onSelectedChild, selectedChild }) => {
+const ChildrenList = () => {
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const [children, setChildren] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,7 +62,7 @@ const ChildrenList = ({ onSelectedChild, selectedChild }) => {
               <div
                 className="child-list-item"
                 key={child.id}
-                onClick={() => onSelectedChild && onSelectedChild(child)}
+                onClick={() => navigate(`/children/${child.id}`)}
               >
                 
                 <h3 className="child-list-name">{child.name}</h3>
