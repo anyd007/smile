@@ -10,6 +10,7 @@ import {
   query,
   orderBy,
 } from "firebase/firestore";
+import Loading from "../loading/Loading";
 
 const Statistics = () => {
   const navigate = useNavigate();
@@ -69,6 +70,7 @@ const Statistics = () => {
         ...doc.data(),
       }));
       setSessions(data);
+      setLoading(false)
     });
 
     return () => unsubscribe();
@@ -118,28 +120,41 @@ const Statistics = () => {
     });
   }, [sessions]);
 
+   if (loading) return <Loading />;
+
   return (
     <div className="statistics-component">
       <button onClick={() => navigate(-1)}>wróć</button>
+
       <h2>{`to są twoje statystyki ${child?.name}`}</h2>
-      <p>
-        tyle razy zapisałeś mycie: <span>{showStats.allSessions}</span>
-      </p>
-      <p>
-        łączny czas mycia zębów <span>{showStats.totalTime}</span>
-      </p>
-      <p>
-        śdrednia czasu mycia zebów <span>{showStats.average}</span>
-      </p>
-      <p>
-        liczna zdobytych pucharów <span>{showStats.isSuccess}</span>
-      </p>
-      <p>
-        najdłuższy czas mycia <span>{showStats.maxTime}</span>
-      </p>
-      <p>
-        najkrudszy czas mycia <span>{showStats.minTime}</span>
-      </p>
+
+      <div className="statistics-item">
+        <p>tyle razy zapisałeś mycie:</p>
+        <p>{showStats.allSessions}</p>
+      </div>
+
+      <div className="statistics-item">
+        <p>łączny czas mycia zębów</p>
+        <p>{showStats.totalTime}</p> F
+      </div>
+
+      <div className="statistics-item">
+        <p>średni czas mycia</p>
+        <p>{showStats.average}</p> F
+      </div>
+
+      <div className="statistics-item">
+        <p>liczba zdobytych pucharów</p>
+        <p>{showStats.isSuccess}</p> F
+      </div>
+      <div className="statistics-item">
+        <p>najdłuższy czas mycia</p>
+        <p>{showStats.maxTime}</p> F
+      </div>
+      <div className="statistics-item">
+        <p>najkródszy czas mycia</p>
+        <p>{showStats.minTimeTime}</p> F
+      </div>
     </div>
   );
 };
