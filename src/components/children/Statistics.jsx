@@ -70,7 +70,7 @@ const Statistics = () => {
         ...doc.data(),
       }));
       setSessions(data);
-      setLoading(false)
+      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -120,40 +120,41 @@ const Statistics = () => {
     });
   }, [sessions]);
 
-   if (loading) return <Loading />;
+  if (loading) return <Loading />;
 
   return (
     <div className="statistics-component">
       <button onClick={() => navigate(-1)}>wróć</button>
 
-      <h2>{`to są twoje statystyki ${child?.name}`}</h2>
+      <h2 className="statistics-title">{`to są twoje statystyki ${child?.name}`}</h2>
+      <div className="statistics-wrapper">
+        <div className="statistics-item">
+          <p>tyle razy zapisałeś mycie</p>
+          <p className="stats-txt">{showStats.allSessions}</p>
+        </div>
 
-      <div className="statistics-item">
-        <p>tyle razy zapisałeś mycie:</p>
-        <p>{showStats.allSessions}</p>
-      </div>
+        <div className="statistics-item">
+          <p>łączny czas mycia zębów</p>
+          <p className="stats-txt">{showStats.totalTime} min</p>
+        </div>
 
-      <div className="statistics-item">
-        <p>łączny czas mycia zębów</p>
-        <p>{showStats.totalTime}</p> F
-      </div>
+        <div className="statistics-item">
+          <p>średni czas mycia</p>
+          <p className="stats-txt">{showStats.average} min</p>
+        </div>
 
-      <div className="statistics-item">
-        <p>średni czas mycia</p>
-        <p>{showStats.average}</p> F
-      </div>
-
-      <div className="statistics-item">
-        <p>liczba zdobytych pucharów</p>
-        <p>{showStats.isSuccess}</p> F
-      </div>
-      <div className="statistics-item">
-        <p>najdłuższy czas mycia</p>
-        <p>{showStats.maxTime}</p> F
-      </div>
-      <div className="statistics-item">
-        <p>najkródszy czas mycia</p>
-        <p>{showStats.minTimeTime}</p> F
+        <div className="statistics-item">
+          <p>liczba zdobytych pucharów</p>
+          <p className="stats-txt">{showStats.isSuccess}</p>
+        </div>
+        <div className="statistics-item">
+          <p>najdłuższy czas mycia</p>
+          <p className="stats-txt">{showStats.maxTime} min</p>
+        </div>
+        <div className="statistics-item">
+          <p>najkródszy czas mycia</p>
+          <p className="stats-txt">{showStats.minTime} min</p>
+        </div>
       </div>
     </div>
   );

@@ -1,1 +1,44 @@
 @use "../../styles/mixins" as *;
+
+.statistics-component {
+
+    width: 100%;
+    text-align: center;
+
+    .statistics-wrapper {
+        display: grid;
+        place-items: center;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+
+        .statistics-item {
+            min-height: 150px;
+            width: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 1px solid #000;
+            border-radius: 15px;
+            gap: 10px;
+            background: #52be32;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+
+            &:nth-child(odd) {
+                background: #ffd93d;
+            }
+
+            &>p {
+                padding: 10px 15px;
+                text-transform: uppercase;
+                color: #fff;
+                text-shadow: 2px 2px 4px #6a43d7;
+            }
+
+            .stats-txt {
+                font-size: 1.5rem;
+            }
+        }
+    }
+}
