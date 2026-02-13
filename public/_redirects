@@ -1,0 +1,6 @@
+//plik usówający błąd odświeżania strony na netlify
+
+  from = "/*"
+  to = "/index.html"
+  status = 200
+

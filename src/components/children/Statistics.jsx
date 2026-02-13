@@ -126,7 +126,7 @@ const Statistics = () => {
     <div className="statistics-component">
       <button onClick={() => navigate(-1)}>wróć</button>
 
-      <h2 className="statistics-title">{`to są twoje statystyki ${child?.name}`}</h2>
+      <h2 className="statistics-title">{`to są twoje statystyki  ${child?.name}`}</h2>
       <div className="statistics-wrapper">
         <div className="statistics-item">
           <p>tyle razy zapisałeś mycie</p>

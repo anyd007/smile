@@ -5,6 +5,13 @@
     width: 100%;
     text-align: center;
 
+    .statistics-title{
+
+        .statistics-title-name{
+            color: tomato
+        }
+    }
+
     .statistics-wrapper {
         display: grid;
         place-items: center;
