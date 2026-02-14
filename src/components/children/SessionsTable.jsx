@@ -1,9 +1,11 @@
 import "./SessionsTable.scss";
 import Loading from "../loading/Loading";
 function SessionsTable({ sessions, lastSession }) {
+
+
   const bestTime = Math.max(...sessions.map((s) => s.duration));
-  if (lastSession) {
-  }
+
+ 
   if (!sessions.length) {
     return <p>Brak zapisanych sesji mycia zębów...</p>;
   }
@@ -15,7 +17,7 @@ function SessionsTable({ sessions, lastSession }) {
     return `${min}:${sec.toString().padStart(2, "0")}`;
   };
 
-  
+ 
   return (
     <div className="table-container">
       {!sessions && <Loading />}
@@ -29,10 +31,19 @@ function SessionsTable({ sessions, lastSession }) {
           </tr>
         </thead>
         <tbody>
-          {sessions.map((s, i, arr) => (
+          {sessions.map((s, i, arr) => {
+            const currentDate = s.createdAt?.toDate?.();
+    const prevDate = arr[i - 1]?.createdAt?.toDate?.();
+
+    const isDifferentDay =
+      i > 0 &&
+      currentDate &&
+      prevDate &&
+      currentDate.toDateString() !== prevDate.toDateString();
+           return (
             <tr
               key={s.id}
-              className={ i > 0 && s.createdAt?.toDate()?.toDateString() !== arr[i-1]?.createdAt.toDate().toDateString() ? "diffrent-day" : "" }
+              className={ isDifferentDay ? "diffrent-day" : "" }
             >
               <td>
                 {(
@@ -46,7 +57,8 @@ function SessionsTable({ sessions, lastSession }) {
               {/* {lastSession && <td>{lastSession.isRecord ? "⏱️" : ""}</td>} */}
               <td>{s.success ? "🏆" : ""}</td>
             </tr>
-          ))}
+          )}
+          )}
         </tbody>
       </table>
     </div>
