@@ -1,11 +1,8 @@
 import "./SessionsTable.scss";
 import Loading from "../loading/Loading";
 function SessionsTable({ sessions, lastSession }) {
-
-
   const bestTime = Math.max(...sessions.map((s) => s.duration));
 
- 
   if (!sessions.length) {
     return <p>Brak zapisanych sesji mycia zębów...</p>;
   }
@@ -17,7 +14,6 @@ function SessionsTable({ sessions, lastSession }) {
     return `${min}:${sec.toString().padStart(2, "0")}`;
   };
 
- 
   return (
     <div className="table-container">
       {!sessions && <Loading />}
@@ -33,32 +29,29 @@ function SessionsTable({ sessions, lastSession }) {
         <tbody>
           {sessions.map((s, i, arr) => {
             const currentDate = s.createdAt?.toDate?.();
-    const prevDate = arr[i - 1]?.createdAt?.toDate?.();
+            const prevDate = arr[i - 1]?.createdAt?.toDate?.();
 
-    const isDifferentDay =
-      i > 0 &&
-      currentDate &&
-      prevDate &&
-      currentDate.toDateString() !== prevDate.toDateString();
-           return (
-            <tr
-              key={s.id}
-              className={ isDifferentDay ? "diffrent-day" : "" }
-            >
-              <td>
-                {(
-                  s.createdAt?.toDate?.() ?? s._localCreatedAt
-                )?.toLocaleString()}
-              </td>
-              <td className={s.duration < 120 ? "not-long-enough" : ""}>
-                {formatTime(s.duration)}
-              </td>
-              <td>{s.duration === bestTime ? "⏱️" : ""}</td>
-              {/* {lastSession && <td>{lastSession.isRecord ? "⏱️" : ""}</td>} */}
-              <td>{s.success ? "🏆" : ""}</td>
-            </tr>
-          )}
-          )}
+            const isDifferentDay =
+              i > 0 &&
+              currentDate &&
+              prevDate &&
+              currentDate.toDateString() !== prevDate.toDateString();
+            return (
+              <tr key={s.id} className={isDifferentDay ? "diffrent-day" : ""}>
+                <td>
+                  {(
+                    s.createdAt?.toDate?.() ?? s._localCreatedAt
+                  )?.toLocaleString()}
+                </td>
+                <td className={s.duration < 120 ? "not-long-enough" : ""}>
+                  {formatTime(s.duration)}
+                </td>
+                <td>{s.duration === bestTime ? "⏱️" : ""}</td>
+                {/* {lastSession && <td>{lastSession.isRecord ? "⏱️" : ""}</td>} */}
+                <td>{s.success ? "🏆" : ""}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

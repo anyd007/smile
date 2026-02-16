@@ -37,7 +37,7 @@ const TimerModal = ({ onClose, onFinish }) => {
     <div className="modal-backdrop timer-component">
       <div className="modal timer-item">
         <img className="timer-logo" src={LogoWithText} alt="logo with text" />
-        <h3 className="timer-title">Mycie zębów</h3>
+        {/* <h3 className="timer-title">Mycie zębów</h3> */}
         <p className="timer-info">
           żeby otrzymać puchar myjemy zęby minimum dwie minuty
         </p>
