@@ -12,8 +12,8 @@
     @include mobile {
       height: 90%;
     }
-  
-    
+
+
 
     .timer-logo {
       max-width: 150px;
@@ -44,6 +44,34 @@
 
     .timer-info {
       font-size: 1.5rem;
+
+      @include mobile {
+        font-size: 1.2rem;
+      }
+    }
+
+    .time-slide-wrapper {
+      position: relative;
+      width: 100%;
+      height: 9px;
+
+      .time-slide {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        height:100%;
+        width: 0%;
+        background: tomato;
+        border-radius: 0 10px 10px 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+
+        &.goo {
+          animation-name: goo;
+          animation-duration: 120s;
+          animation-fill-mode: forwards;
+          animation-timing-function: linear;
+        }
+      }
     }
 
     .timer-wraper {
@@ -128,3 +156,28 @@
 //     top: -10%;
 //   }
 // }
+
+@keyframes goo {
+
+  0% {
+    background: tomato;
+    width: 0%;
+  }
+
+  25% {
+    background: tomato;
+  }
+
+  45% {
+    background: blue;
+  }
+
+  70%{
+    background: green;
+  }
+
+  100% {
+    width: 100%;
+    background: gold;
+  }
+}

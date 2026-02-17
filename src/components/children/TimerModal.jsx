@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./TimerModal.scss";
-import LogoWithText from "../../assets/images/logo-with-text.png"
+import LogoWithText from "../../assets/images/logo-with-text.png";
 
 const TimerModal = ({ onClose, onFinish }) => {
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -41,6 +41,9 @@ const TimerModal = ({ onClose, onFinish }) => {
         <p className="timer-info">
           żeby otrzymać puchar myjemy zęby minimum dwie minuty
         </p>
+        <div className="time-slide-wrapper">
+          <div className={`time-slide ${isRunning ? "goo" : ""}`}></div>
+        </div>
         <div className="timer-wraper">
           <p className="timer">
             <span className="minutes">{formatedTime.min}</span>:
@@ -70,7 +73,10 @@ const TimerModal = ({ onClose, onFinish }) => {
           </button>
           <button
             className="close-btn"
-            onClick={() => {setIsRunning(false); onClose()}}
+            onClick={() => {
+              setIsRunning(false);
+              onClose();
+            }}
           >
             Zamknij
           </button>
