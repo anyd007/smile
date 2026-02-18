@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./SessionsTable.scss";
-import Loading from "../loading/Loading";
+// import Loading from "../loading/Loading";
 
 function SessionsTable({ sessions }) {
   const [showAll, setShowAll] = useState(false);
