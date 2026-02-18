@@ -1,59 +1,64 @@
+import { useState } from "react";
 import "./SessionsTable.scss";
 import Loading from "../loading/Loading";
-function SessionsTable({ sessions, lastSession }) {
-  const bestTime = Math.max(...sessions.map((s) => s.duration));
 
-  if (!sessions.length) {
-    return <p>Brak zapisanych sesji mycia zębów...</p>;
+function SessionsTable({ sessions }) {
+  const [showAll, setShowAll] = useState(false);
+
+  if (!sessions || sessions.length === 0) {
+    return <p className="empty-msg">Zacznij przygodę! Umyj zęby po raz pierwszy... 🪥</p>;
   }
+
+  const bestTime = Math.max(...sessions.map((s) => s.duration));
+  
+  // Najnowsze wyniki na początku + limit wyświetlania
+  const sortedSessions = [...sessions].sort((a, b) => 
+    (b.createdAt?.toDate?.() || b._localCreatedAt) - (a.createdAt?.toDate?.() || a._localCreatedAt)
+  );
+  
+  const displayedSessions = showAll ? sortedSessions : sortedSessions.slice(0, 10);
 
   const formatTime = (seconds) => {
     const min = Math.floor(seconds / 60);
     const sec = seconds % 60;
-
     return `${min}:${sec.toString().padStart(2, "0")}`;
   };
 
   return (
-    <div className="table-container">
-      {!sessions && <Loading />}
-      <table className="table-item">
-        <thead className="table-head">
-          <tr>
-            <th>Data</th>
-            <th>Czas</th>
-            <th>Rekord czasu</th>
-            <th>puchar</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sessions.map((s, i, arr) => {
-            const currentDate = s.createdAt?.toDate?.();
-            const prevDate = arr[i - 1]?.createdAt?.toDate?.();
+    <div className="sessions-wrapper">
+      <div className="adventure-grid">
+        {displayedSessions.map((s) => {
+          const isRecord = s.duration === bestTime;
+          const isTooShort = s.duration < 120;
+          const date = (s.createdAt?.toDate?.() ?? s._localCreatedAt);
 
-            const isDifferentDay =
-              i > 0 &&
-              currentDate &&
-              prevDate &&
-              currentDate.toDateString() !== prevDate.toDateString();
-            return (
-              <tr key={s.id} className={isDifferentDay ? "diffrent-day" : ""}>
-                <td>
-                  {(
-                    s.createdAt?.toDate?.() ?? s._localCreatedAt
-                  )?.toLocaleString()}
-                </td>
-                <td className={s.duration < 120 ? "not-long-enough" : ""}>
-                  {formatTime(s.duration)}
-                </td>
-                <td>{s.duration === bestTime ? "⏱️" : ""}</td>
-                {/* {lastSession && <td>{lastSession.isRecord ? "⏱️" : ""}</td>} */}
-                <td>{s.success ? "🏆" : ""}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+          return (
+            <div key={s.id} className={`session-card ${isTooShort ? "short" : "success"}`}>
+              <div className="card-top">
+                <span className="date-tag">{date?.toLocaleDateString()}</span>
+                {isRecord && <span className="record-badge" title="Twój rekord!">⏱️</span>}
+              </div>
+
+              <div className="card-body">
+                <div className="status-icon">
+                  {s.success ? "🏆" : "🦷"}
+                </div>
+                <div className="duration-val">{formatTime(s.duration)}</div>
+              </div>
+
+              <div className="card-footer">
+                {s.success ? "Super czysto!" : "Spróbuj dłużej!"}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {sessions.length > 10 && (
+        <button className="load-more-btn" onClick={() => setShowAll(!showAll)}>
+          {showAll ? "Pokaż mniej" : `Zobacz wszystkie sesje (${sessions.length})`}
+        </button>
+      )}
     </div>
   );
 }

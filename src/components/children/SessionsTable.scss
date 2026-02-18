@@ -1,71 +1,78 @@
-@use "../../styles/mixins" as *;
+.sessions-wrapper {
+  width: 100%;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-.table-container {
+  .adventure-grid {
+    display: grid;
+    // Automatyczne kolumny: min 150px, max zajmij całą wolną przestrzeń
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
     width: 100%;
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        // min-width: 800px;
+    max-width: 1200px;
+  }
 
-        thead {
-            background: linear-gradient(90deg, #52be32, #fbce3e);
-            color: white;
+  .session-card {
+    background: white;
+    border-radius: 18px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+    border-bottom: 5px solid #eee;
 
-            th {
-                padding: 18px 5px;
-                text-align: center;
-                font-weight: 600;
-                font-size: 1rem;
+    &:hover { transform: translateY(-4px); }
 
-                @include mobile {
-                    padding: 12px 5px;
-                    font-size: 0.8rem;
-                }
-            }
-        }
+    &.success { border-color: #4caf50; background: #f9fff9; }
+    &.short { border-color: #ff9800; background: #fffcf5; }
 
-        tbody {
-
-            tr {
-                border-bottom: 1px solid #f1f5f9;
-                transition: background-color 0.2s;
-
-                &.diffrent-day{
-                    border-top: 2px solid #52be32;
-                    box-shadow: 0 -10px 10px -5px rgba(0, 0, 0, 0.3);
-                    
-                }
-
-
-                &:hover {
-                    background-color: #f9fafb;
-                }
-
-                td {
-                    padding: 16px 5px;
-                    vertical-align: middle;
-                    text-align: center;
-
-                    &.not-long-enough {
-                        background: #ff4d4da1;
-                    }
-
-                    @include mobile {
-                        padding: 10px 5px;
-                        font-size: 0.8rem;
-                    }
-                }
-            }
-        }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .date-tag { font-size: 0.75rem; color: #888; font-weight: bold; }
+      .record-badge { font-size: 1.2rem; }
     }
+
+    .card-body {
+      text-align: center;
+      margin: 10px 0;
+      .status-icon { font-size: 2.5rem; margin-bottom: 5px; }
+      .duration-val { font-size: 1.4rem; font-weight: 800; color: #333; }
+    }
+
+    .card-footer {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #666;
+      text-align: center;
+      margin-top: auto;
+    }
+  }
+
+  .load-more-btn {
+    margin-top: 30px;
+    padding: 12px 24px;
+    border-radius: 25px;
+    border: none;
+    background: #2193b0;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover { background: #6dd5ed; }
+  }
 }
 
-@keyframes go {
-    0%{
-        width: 0;
-    }
-    100%{
-        width: 100%;
-    }
-    
+// Obsługa telefonów (opcjonalnie mniejsze karty)
+@media (max-width: 480px) {
+  .adventure-grid {
+    grid-template-columns: repeat(2, 1fr); // 2 kolumny na małych telefonach
+    gap: 10px;
+  }
 }
