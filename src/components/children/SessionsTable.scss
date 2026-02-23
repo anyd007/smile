@@ -12,6 +12,7 @@
     gap: 15px;
     width: 100%;
     max-width: 1200px;
+    overflow: hidden;
   }
 
   .session-card {
@@ -33,7 +34,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      .date-tag { font-size: 0.75rem; color: #888; font-weight: bold; }
+      .date-tag { font-size: 1rem; color: #888; font-weight: bold; }
       .record-badge { font-size: 1.2rem; }
     }
 
@@ -68,6 +69,42 @@
     &:hover { background: #6dd5ed; }
   }
 }
+
+.pagination {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: white;
+  padding: 10px 20px;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+  .page-info {
+    font-size: 0.9rem;
+    color: #555;
+    strong { color: #2193b0; }
+  }
+
+  .pag-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      filter: grayscale(1);
+    }
+
+    &:not(:disabled):hover {
+      transform: scale(1.2);
+    }
+  }
+}
+
 
 // Obsługa telefonów (opcjonalnie mniejsze karty)
 @media (max-width: 480px) {
