@@ -4,7 +4,7 @@
 
   .timer-item {
     position: relative;
-    height: 80%;
+    height: 90%;
     width: 90%;
     margin-bottom: 0;
     justify-content: space-evenly !important;
@@ -89,6 +89,8 @@
       text-align: center;
 
       @include mobile {
+        width: 250px;
+        height: 250px;
         // min-width: 270px;
       }
 
