@@ -38,9 +38,9 @@ const TimerModal = ({ onClose, onFinish }) => {
       <div className="modal timer-item">
         <img className="timer-logo" src={LogoWithText} alt="logo with text" />
         {/* <h3 className="timer-title">Mycie zębów</h3> */}
-        <p className="timer-info">
+        {/* <p className="timer-info">
           żeby otrzymać puchar myjemy zęby minimum dwie minuty
-        </p>
+        </p> */}
         <div className="time-slide-wrapper">
           <div className={`time-slide ${isRunning ? "goo" : ""}`}></div>
         </div>
