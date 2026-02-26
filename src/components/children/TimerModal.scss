@@ -12,6 +12,7 @@
     @include mobile {
       height: 95%;
       width: 95%;
+      padding: 10px;
     }
 
     .timer-title {
@@ -110,8 +111,7 @@
         letter-spacing: 8;
 
         .minutes {
-          animation: pulse 2s infinite;
-          ;
+          transition: all 1s ease;
         }
 
         .seconds {
@@ -127,17 +127,6 @@
   }
 }
 
-@keyframes pulse {
-
-  0%,
-  100% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.1);
-  }
-}
 
 @keyframes bounce {
   0% {
