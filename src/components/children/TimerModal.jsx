@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./TimerModal.scss";
+import AppImage from "../../styles/AppImage";
 import LogoWithText from "../../assets/images/logo-with-text.png";
 
 const TimerModal = ({ onClose, onFinish }) => {
@@ -36,17 +37,16 @@ const TimerModal = ({ onClose, onFinish }) => {
   return (
     <div className="modal-backdrop timer-component">
       <div className="modal timer-item">
-        
         {/* <h3 className="timer-title">Mycie zębów</h3> */}
         {/* <p className="timer-info">
           żeby otrzymać puchar myjemy zęby minimum dwie minuty
         </p> */}
         <div className="time-slide-wrapper">
-         
           <div className={`time-slide ${isRunning ? "goo" : ""}`}></div>
         </div>
         <div className="timer-wraper">
-           <img className="timer-logo" src={LogoWithText} alt="logo with text" />
+          <AppImage src={LogoWithText} alt="Logo Smile" className="logo" />
+
           <p className="timer">
             <span className="minutes">{formatedTime.min}</span>:
             <span className={`seconds ${isRunning ? "running" : ""}`}>
