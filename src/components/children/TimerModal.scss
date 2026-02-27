@@ -38,6 +38,17 @@
       border: 1px solid #000;
       border-radius: 0 10px 10px 0;
 
+      &::after {
+        content: "2 min.";
+        font-weight: bold;
+        padding: 10px 15px;
+        // clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 70%, 50% 70%, 50% 100%, 40% 70%, 0% 70%, 0% 10%);
+        position: absolute;
+        // background: #fff;
+        top: -70%;
+        right: -1%;
+      }
+
       .time-slide {
         position: absolute;
         top: 0;
@@ -57,6 +68,7 @@
       }
     }
 
+
     .timer-wraper {
       position: relative;
       display: flex;
@@ -68,13 +80,13 @@
       max-width: 400px;
       max-height: 400px;
       border-radius: 50%;
-      overflow: hidden;
+      // overflow: hidden;
       background: rgba(106, 67, 215, 0.2);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(8.2px);
       -webkit-backdrop-filter: blur(8.2px);
       border: 1px solid rgba(255, 255, 255, 0.3);
-      text-align: center;
+
 
       @include mobile {
         max-width: 300px;
@@ -82,9 +94,11 @@
         // min-width: 270px;
       }
 
-      .logo{
+      .logo {
+        position: relative;
         height: 50% !important;
         width: 50% !important;
+
       }
 
       .timer {
@@ -153,9 +167,4 @@
     width: 100%;
     background: gold;
   }
-}
-
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
 }

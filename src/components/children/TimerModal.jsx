@@ -37,14 +37,11 @@ const TimerModal = ({ onClose, onFinish }) => {
   return (
     <div className="modal-backdrop timer-component">
       <div className="modal timer-item">
-        {/* <h3 className="timer-title">Mycie zębów</h3> */}
-        {/* <p className="timer-info">
-          żeby otrzymać puchar myjemy zęby minimum dwie minuty
-        </p> */}
         <div className="time-slide-wrapper">
           <div className={`time-slide ${isRunning ? "goo" : ""}`}></div>
         </div>
         <div className="timer-wraper">
+          
           <AppImage src={LogoWithText} alt="Logo Smile" className="logo" />
 
           <p className="timer">
