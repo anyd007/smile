@@ -45,8 +45,11 @@ const TimerModal = ({ onClose, onFinish }) => {
 
     const color = elapsedTime >= 60 ? "#36a2eb" : "#ff4d4d";
 
-    if (elapsedTime >= totalTime) {
+    if (elapsedTime === totalTime) {
       setShowConfetti(true);
+      setTimeout(() => {
+        setShowConfetti(false);
+      }, 15000); // Konfetti znika po 15 sekundach
     }
 
     setChartData({
@@ -119,6 +122,7 @@ const TimerModal = ({ onClose, onFinish }) => {
             onClick={() => {
               setIsRunning(false);
               onFinish(elapsedTime);
+              setShowConfetti(false);
             }}
           >
             Stop
@@ -128,6 +132,7 @@ const TimerModal = ({ onClose, onFinish }) => {
             onClick={() => {
               setIsRunning(false);
               onClose();
+              setShowConfetti(false);
             }}
           >
             Zamknij
