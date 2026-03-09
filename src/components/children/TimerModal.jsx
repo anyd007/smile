@@ -12,7 +12,7 @@ const TimerModal = ({ onClose, onFinish }) => {
     sec: 0,
     min: 0,
   });
-  const totalTime = 120; // Czas w sekundach
+  const [animationDuration, setAnimationDuration] = useState(500); // Szybki start 
   const [chartData, setChartData] = useState({
     datasets: [{
       data: [0, 100], // Startujemy od zera
@@ -26,7 +26,7 @@ const TimerModal = ({ onClose, onFinish }) => {
     responsive: true,
     maintainAspectRatio: false,
     animation: {
-      duration: totalTime * 1000, // Animacja trwa tyle, co odliczanie (10s)
+      duration: animationDuration, // Animacja trwa tyle, co odliczanie (10s)
       easing: "linear",           // "linear" sprawi, że będzie płynnie "jechać"
       animateRotate: true,
     },
@@ -36,6 +36,8 @@ const TimerModal = ({ onClose, onFinish }) => {
 
   useEffect(() => {
     if (!isRunning) return;
+
+    setAnimationDuration(120 * 1000);
 
     setChartData({
       datasets: [{
