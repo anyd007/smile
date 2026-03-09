@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import "./TimerModal.scss";
 import AppImage from "../../styles/AppImage";
 import { Doughnut } from "react-chartjs-2";
+import Confetti from "react-confetti";
 import "chart.js/auto";
 import LogoWithText from "../../assets/images/logo-with-text.png";
 
 const TimerModal = ({ onClose, onFinish }) => {
   const [elapsedTime, setElapsedTime] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [formatedTime, setFormatedTime] = useState({
     sec: 0,
@@ -42,6 +44,10 @@ const TimerModal = ({ onClose, onFinish }) => {
     const progress = Math.min((elapsedTime / totalTime) * 100, 100);
 
     const color = elapsedTime >= 60 ? "#36a2eb" : "#ff4d4d";
+
+    if (elapsedTime >= totalTime) {
+      setShowConfetti(true);
+    }
 
     setChartData({
       datasets: [
@@ -81,6 +87,7 @@ const TimerModal = ({ onClose, onFinish }) => {
 
   return (
     <div className="modal-backdrop timer-component">
+      {showConfetti && <Confetti width={window.innerWidth} height={window.innerHeight} />}
       <div className="modal timer-item">
         <div className="timer-wraper">
           <Doughnut
