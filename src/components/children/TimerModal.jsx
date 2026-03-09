@@ -41,11 +41,13 @@ const TimerModal = ({ onClose, onFinish }) => {
 
     const progress = Math.min((elapsedTime / totalTime) * 100, 100);
 
+    const color = elapsedTime >= 60 ? "#36a2eb" : "#ff4d4d";
+
     setChartData({
       datasets: [
         {
           data: [progress, 100 - progress],
-          backgroundColor: ["#e0e0e0", "#4bc0c0"],
+          backgroundColor: [color, "#e0e0e0"],
           cutout: "80%",
           borderWidth: 0,
           
