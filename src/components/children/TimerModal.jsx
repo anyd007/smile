@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import "./TimerModal.scss";
 import AppImage from "../../styles/AppImage";
+import { Doughnut } from "react-chartjs-2";
+import "chart.js/auto";
 import LogoWithText from "../../assets/images/logo-with-text.png";
 
 const TimerModal = ({ onClose, onFinish }) => {
@@ -10,9 +12,38 @@ const TimerModal = ({ onClose, onFinish }) => {
     sec: 0,
     min: 0,
   });
+  const totalTime = 120; // Czas w sekundach
+  const [chartData, setChartData] = useState({
+    datasets: [{
+      data: [0, 100], // Startujemy od zera
+      backgroundColor: ['#4bc0c0', '#e0e0e0'],
+      cutout: '80%',
+      borderWidth: 0,
+    }],
+  });
+
+   const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+      duration: totalTime * 1000, // Animacja trwa tyle, co odliczanie (10s)
+      easing: "linear",           // "linear" sprawi, że będzie płynnie "jechać"
+      animateRotate: true,
+    },
+    plugins: { legend: { display: false } },
+  };
+
 
   useEffect(() => {
     if (!isRunning) return;
+
+    setChartData({
+      datasets: [{
+        data: [100, 0], // Nowe wartości, do których wykres "dopłynie"
+        backgroundColor: ['#4bc0c0', '#e0e0e0'],
+        cutout: '80%',
+      }],
+    });
 
     const interval = setInterval(() => {
       setElapsedTime((prev) => prev + 1);
@@ -37,11 +68,8 @@ const TimerModal = ({ onClose, onFinish }) => {
   return (
     <div className="modal-backdrop timer-component">
       <div className="modal timer-item">
-        <div className="time-slide-wrapper">
-          <div className={`time-slide ${isRunning ? "goo" : ""}`}></div>
-        </div>
         <div className="timer-wraper">
-          
+          <Doughnut className="doughnut-chart" options={options} data={chartData} />
           <AppImage src={LogoWithText} alt="Logo Smile" className="logo" />
 
           <p className="timer">
