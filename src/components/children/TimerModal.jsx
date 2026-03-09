@@ -12,40 +12,50 @@ const TimerModal = ({ onClose, onFinish }) => {
     sec: 0,
     min: 0,
   });
-  const [animationDuration, setAnimationDuration] = useState(500); // Szybki start 
   const [chartData, setChartData] = useState({
-    datasets: [{
-      data: [0, 100], // Startujemy od zera
-      backgroundColor: ['#4bc0c0', '#e0e0e0'],
-      cutout: '80%',
-      borderWidth: 0,
-    }],
+    datasets: [
+      {
+        data: [0, 100], // Startujemy od zera
+        backgroundColor: ["#4bc0c0", "#e0e0e0"],
+        cutout: "80%",
+        borderWidth: 0,
+        borderRadius: 10,
+      },
+    ],
   });
 
-   const options = {
+  const options = {
     responsive: true,
     maintainAspectRatio: false,
+    // rotation: -90, // start od góry
     animation: {
-      duration: animationDuration, // Animacja trwa tyle, co odliczanie (10s)
-      easing: "linear",           // "linear" sprawi, że będzie płynnie "jechać"
+      duration: 1000, // Animacja trwa tyle, co odliczanie (10s)
+      easing: "linear", // "linear" sprawi, że będzie płynnie "jechać"
       animateRotate: true,
     },
     plugins: { legend: { display: false } },
   };
 
+  useEffect(() => {
+    const totalTime = 120; // 2 minuty
+
+    const progress = Math.min((elapsedTime / totalTime) * 100, 100);
+
+    setChartData({
+      datasets: [
+        {
+          data: [progress, 100 - progress],
+          backgroundColor: ["#e0e0e0", "#4bc0c0"],
+          cutout: "80%",
+          borderWidth: 0,
+          
+        },
+      ],
+    });
+  }, [elapsedTime]);
 
   useEffect(() => {
     if (!isRunning) return;
-
-    setAnimationDuration(120 * 1000);
-
-    setChartData({
-      datasets: [{
-        data: [100, 0], // Nowe wartości, do których wykres "dopłynie"
-        backgroundColor: ['#4bc0c0', '#e0e0e0'],
-        cutout: '80%',
-      }],
-    });
 
     const interval = setInterval(() => {
       setElapsedTime((prev) => prev + 1);
@@ -71,7 +81,11 @@ const TimerModal = ({ onClose, onFinish }) => {
     <div className="modal-backdrop timer-component">
       <div className="modal timer-item">
         <div className="timer-wraper">
-          <Doughnut className="doughnut-chart" options={options} data={chartData} />
+          <Doughnut
+            className="doughnut-chart"
+            options={options}
+            data={chartData}
+          />
           <AppImage src={LogoWithText} alt="Logo Smile" className="logo" />
 
           <p className="timer">
