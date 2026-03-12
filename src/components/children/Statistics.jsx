@@ -79,9 +79,13 @@ const Statistics = () => {
   useEffect(() => {
     if (!sessions.length) return;
 
-    const formattedTime = (secends) => {
-      const min = Math.floor(secends / 60);
-      const sec = secends % 60;
+    const formattedTime = (seconds) => {
+      const hrs = Math.floor(seconds / 3600);
+      const min = Math.floor((seconds % 3600) / 60);
+      const sec = seconds % 60;
+      if (hrs > 0) {
+        return `${hrs}:${min.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
+      }
 
       return `${min}:${sec.toString().padStart(2, "0")}`;
     };
@@ -135,7 +139,7 @@ const Statistics = () => {
 
         <div className="statistics-item">
           <p>łączny czas mycia zębów</p>
-          <p className="stats-txt">{showStats.totalTime} min</p>
+          <p className="stats-txt">{showStats.totalTime}</p>
         </div>
 
         <div className="statistics-item">
